@@ -8,6 +8,8 @@ There are several basic concepts to be considered in Kubernetes:
 * **Cloud Controller Manager**: TBC
 * **Controller Manager**: TBC
 * **Namespace**: It's a kind of logical division inside a kubernetes cluster. It's a way to keep pod/deployment/service/ingress ordered. There are some namespaces created by default in kubernetes for internal purpose. Even there is a namespace called and configured as default. If no namespace is specified, elements will be assigned to the default one.
+* **Pod**: A pod is a set of containers. Generally, a pod usually runs one container, but it could run several.
+* **Deployment**: A template to generate pods.
 
 The client to access to a kubernetes cluster, it's needed ```kubectl``` client`.
 
@@ -51,9 +53,40 @@ There are several namespaces created by default in kubernetes for internal purpo
 
 TBC
 
+## PODs
+
+The way to query the pods belonging to a namespace
+
+```shell
+kubectl get pod -n <namespace_name>
+```
+
+If we want to display additional information about pods we could use the same command with the option `wide` to display additional columns:
+
+```shell
+kubectl get pod -n <namespace_name> -o wide
+```
+
+It's going to display internal IP, cluster node which is running the pod, etc..
+
+If we want to delete a pod from the cluster, the command to be used
+
+```shell
+kubectl delete pod <pod_name> -n <namespace_name>
+```
+If we have configured a minimum set of pods deployed, it could be recreated a new pod to replace the deleted one.
+
 # Kubernetes Examples
 
-TBC
+## Example one - Deploy a pod
+
+We could use the YAML file to describe a POD to be deployed. This is the simplest way to create a POD.
+
+In the following examples we are going to see Deployment structure which offers a richer way to declare PODs. However, in this example we can see the most simple one.
+
+Starting from this YAML file manifest to describe a POD:
+
+TBC - Link to the repo with the manifest
 
 # References
 
