@@ -76,6 +76,12 @@ kubectl delete pod <pod_name> -n <namespace_name>
 ```
 If we have configured a minimum set of pods deployed, it could be recreated a new pod to replace the deleted one.
 
+There is a command to apply configuration to kubernetes cluster. We can apply any configuration defined in a YAML file in kubernetes
+
+```shell
+kubectl apply -f <path_to_file> -n <namespace_name>
+```
+
 # Kubernetes Examples
 
 ## Example one - Deploy a pod
@@ -86,7 +92,89 @@ In the following examples we are going to see Deployment structure which offers 
 
 Starting from this YAML file manifest to describe a POD:
 
-TBC - Link to the repo with the manifest
+https://github.com/chintoz/kubernetes-commands/blob/main/Example1/pod.yaml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginxpod
+spec:
+  containers:
+    - name: nginxcontainer
+      image: nginx:alpine
+```
+
+With this manifest file we are able to create a POD which is called `nginxpod` which contains a container called `nginxcontainer `.
+
+To be able to deploy in our cluster we can do it using the following command:
+
+```shell
+kubectl apply -f pod.yaml -n default
+```
+Once it's created we can describe the pod created with the command
+
+```shell
+kubectl describe pod nginxpod -n default
+```
+
+It'll display information about the pod like this:
+
+```shell
+Name:         nginxpod
+Namespace:    default
+Priority:     0
+Node:         minikube/172.26.71.12
+Start Time:   Mon, 16 May 2022 23:17:32 +0200
+Labels:       <none>
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.3
+IPs:
+  IP:  172.17.0.3
+Containers:
+  nginxcontainer:
+    Container ID:   docker://ce51fa873c7fb4036006abcbbea5c953b20dd2657acd767b3037762fbe802a26
+    Image:          nginx:alpine
+    Image ID:       docker-pullable://nginx@sha256:5a0df7fb7c8c03e4158ae9974bfbd6a15da2bdfdeded4fb694367ec812325d31
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 16 May 2022 23:17:33 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-2hgzh (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-2hgzh:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  16s   default-scheduler  Successfully assigned default/nginxpod to minikube
+  Normal  Pulled     15s   kubelet            Container image "nginx:alpine" already present on machine
+  Normal  Created    15s   kubelet            Created container nginxcontainer
+  Normal  Started    15s   kubelet            Started container nginxcontainer
+```
+
+## Example Two - TBC
+
+TBC
 
 # References
 
